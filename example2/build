@@ -1,0 +1,19 @@
+rm -f *.so
+rm -f *.a
+rm -f sum.h
+rm -f *.o
+rm -f _sum.c
+rm -f lib*.h
+rm -rf lib
+go build -buildmode=c-archive -o libutils.a utils.go
+cython _utils.pyx
+gcc $CFLAGS -m64 -I/usr/include/python2.7 -O2 -fPIC -c _utils.c -lpython2.7 -lpthread -lm -lutil -ldl 
+gcc -shared _utils.o -o _utils.so -L. -Bstatic -lutils
+mkdir -p lib
+mv _utils.so lib
+rm -f *.a
+rm -f *.o
+rm -f _sum.c
+cd lib
+python -c 'import _utils; print _utils.get_version("r# -*- type: table; version: 2.1.8; -*-")'
+cd ..
