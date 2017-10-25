@@ -11,7 +11,7 @@ golang_to_python shows a simple example how to create a python module that inclu
 
 Finally, creating a module using golang for python can just re-become simple and clean!
 
-This simple example has been tested with
+These simple examples have been tested with
 
 * ubuntu-gnome
 * golang = 1.9 (not tested with previous version, but get some issues with golang 1.6)
