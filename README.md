@@ -13,7 +13,7 @@ Finally, creating a module using golang for python can just re-become simple and
 This simple example has been tested with
 
 * ubuntu-gnome
-* golang = 1.9
+* golang = 1.9 (not tested with previous version, but get some issues with golang 1.6)
 * python = 2.7
 * cython = 0.26
 * gcc = 5.4
