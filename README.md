@@ -12,8 +12,8 @@ Finally, creating a module using golang for python can just re-become simple and
 
 This simple example has been tested with
 
-ubuntu
-golang = 1.9
-python = 2.7
-cython = 0.26
-gcc = 5.4
+* ubuntu-gnome
+* golang = 1.9
+* python = 2.7
+* cython = 0.26
+* gcc = 5.4
