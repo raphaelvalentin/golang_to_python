@@ -13,14 +13,14 @@ func binarySearch(array []float64, target float64, lowIndex int, highIndex int) 
 	for startIndex < endIndex {
 		mid = int((startIndex + endIndex) / 2)
 		if array[mid] == target {
-            return mid
+                    return mid
 		} else if target > array[mid]  {
-            if startIndex == mid {
-                return mid
-            }
-			startIndex = mid
+                    if startIndex == mid {
+                        return mid
+                }
+		    startIndex = mid
 		} else {
-			endIndex = mid
+		    endIndex = mid
 		}
 	}
 	return -1
