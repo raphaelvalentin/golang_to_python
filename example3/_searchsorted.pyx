@@ -31,11 +31,17 @@ def _searchsorted(np.ndarray[double, ndim=1] array, x, lowIndex, highIndex):
     cdef int i
 
     data = <GoFloat64 *>malloc(len(array)*cython.sizeof(GoFloat64))
-    for i in range(len(array)):
-        data[i] =  <GoFloat64> array[i]
-    goArray.data = <GoFloat64*> data;
-    goArray.len = <GoInt> len(array)
-    goArray.cap = <GoInt> len(array)
+    if data is NULL:
+        raise MemoryError()
+    try:
+        for i in range(len(array)):
+            data[i] =  <GoFloat64> array[i]
+        goArray.data = <GoFloat64*> data;
+        goArray.len = <GoInt> len(array)
+        goArray.cap = <GoInt> len(array)
 
-    index = searchsorted(<GoSlice> goArray, <GoFloat64> x, <GoInt> lowIndex, <GoInt> highIndex)
-    return index
+        index = searchsorted(<GoSlice> goArray, <GoFloat64> x, <GoInt> lowIndex, <GoInt> highIndex)
+        return index
+
+    finally:
+        free(data)
