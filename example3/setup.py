@@ -1,9 +1,13 @@
 from __future__ import print_function
+import os
 from distutils.core import setup
 from distutils.extension import Extension
 from Cython.Build import cythonize
 import numpy
 import subprocess
+
+
+current_path = os.path.abspath(os.path.dirname(__file__))
 
 
 GO_EXTENSIONS = [
@@ -17,7 +21,7 @@ CY_EXTENSIONS = [
         ['_searchsorted.pyx'],
         include_dirs=[numpy.get_include()],
         libraries=[':libsearchsorted.a'],
-        library_dirs=['/home/raphael/Dev/golang/searchsorted'],
+        library_dirs=[current_path],
     ),
 ]
 
