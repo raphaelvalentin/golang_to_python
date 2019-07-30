@@ -23,25 +23,19 @@ cdef extern from "libsearchsorted.h":
     GoInt searchsorted(GoSlice, GoFloat64, GoInt, GoInt);
 
 
-def _searchsorted(np.ndarray[double, ndim=1] array, x, lowIndex, highIndex):
+def _searchsorted(np.ndarray[double, ndim=1, mode="c"] array, x, lowIndex, highIndex):
     """ call searchsorted from golang lib
     """
     cdef GoSlice goArray;
-    cdef GoFloat64 *data
-    cdef int i
 
-    data = <GoFloat64 *>malloc(len(array)*cython.sizeof(GoFloat64))
-    if data is NULL:
-        raise MemoryError()
     try:
-        for i in range(len(array)):
-            data[i] =  <GoFloat64> array[i]
-        goArray.data = <GoFloat64*> data;
-        goArray.len = <GoInt> len(array)
-        goArray.cap = <GoInt> len(array)
+        goArray.data = <GoFloat64*> array.data;
+        goArray.len = <GoInt> array.size
+        goArray.cap = <GoInt> array.size
 
         index = searchsorted(<GoSlice> goArray, <GoFloat64> x, <GoInt> lowIndex, <GoInt> highIndex)
         return index
 
     finally:
-        free(data)
+        # free
+        pass
