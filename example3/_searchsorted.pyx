@@ -1,5 +1,7 @@
 cimport cython
 from libc.stdlib cimport malloc, free
+import numpy as np
+cimport numpy as np
 
 cdef extern from "libsearchsorted.h":
     ctypedef signed char GoInt8;
@@ -18,21 +20,22 @@ cdef extern from "libsearchsorted.h":
         void *data
         GoInt len
         GoInt cap
-    GoInt binarySearch(GoSlice, GoFloat64, GoInt, GoInt);
+    GoInt searchsorted(GoSlice, GoFloat64, GoInt, GoInt);
 
-def searchsorted(array, x, lowIndex, highIndex):
-    """ binarySearch in golang
+
+def _searchsorted(np.ndarray[double, ndim=1] array, x, lowIndex, highIndex):
+    """ call searchsorted from golang lib
     """
-    cdef GoSlice _array;
-    cdef double *data
-    cdef int i;
+    cdef GoSlice goArray;
+    cdef GoFloat64 *data
+    cdef int i
 
-    data = <double *>malloc(len(array)*cython.sizeof(double))
+    data = <GoFloat64 *>malloc(len(array)*cython.sizeof(GoFloat64))
     for i in range(len(array)):
-        data[i] =  <double> array[i]
-    _array.data = <GoFloat64*> data;
-    _array.len = <GoInt> len(array)
-    _array.cap = <GoInt> len(array)
+        data[i] =  <GoFloat64> array[i]
+    goArray.data = <GoFloat64*> data;
+    goArray.len = <GoInt> len(array)
+    goArray.cap = <GoInt> len(array)
 
-    index = binarySearch(_array, <GoFloat64> x, <GoInt> lowIndex, <GoInt> highIndex)
+    index = searchsorted(<GoSlice> goArray, <GoFloat64> x, <GoInt> lowIndex, <GoInt> highIndex)
     return index
